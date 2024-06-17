@@ -105,7 +105,7 @@ async function fetchItems() {
     itemCount = allData.boards[0].items_count
     cursor = allData.boards[0].items_page.cursor
 
-    createCheckbox()
+    // createCheckbox()
 
     return response.data.boards[0].items_page.items;
 }
