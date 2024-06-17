@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <link rel="stylesheet" type="text/css" href="style.css" />
+    <meta charset="utf-8" />
+    <!-- <link rel="stylesheet" type="text/css" href="/static/css/monday.css"> -->
+    <link href="https://fonts.cdnfonts.com/css/prompt" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/monday-sdk-js/dist/main.js"></script>
+    <script src="https://code.jquery.com/jquery-1.12.3.min.js"></script>
+    <script src="jquery.printelement.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jQuery.print/1.6.2/jQuery.print.min.js"></script>
+    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.3.2/jspdf.debug.js"></script> -->
+    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.3.1/jspdf.umd.min.js"></script> -->
+    <script src="https://kit.fontawesome.com/a076d05399.js"></script>
+    <style>
+    #print_btn {
+        position: absolute;
+        transform: scale(1.2);
+        top: 20px;
+        left: 20px;
+
+    }
+
+    .page {
+        page-break-after: always;
+    }
+    .item{
+        position: relative;
+        width: 100%;
+        background-color: red;
+        height: 50vh;
+    }
+    </style>
+</head>
+
+<body>
+    <button id="print_btn">列 印</button>
+    <div id='print_box'>
+        <div id="title">
+            <h2 id='title_text' class='not_select'>請設定標題</h2>
+            <h3 id='subTitle' class='not_select'>請設定副標題</h3>
+        </div>
+        <div id='content'>
+            <div class='item'></div>
+            <div class='item'></div>
+            <div class='item'></div>
+            <div class='item'></div>
+            <div class='item'></div>
+            <div class='item'></div>
+            <div class='item'></div>
+            <div class='item'></div>
+            <div class='item'></div>
+
+            <!-- <div id='img1' class='item_img'></div>
+             <div id='img2' class='item_img'></div>
+             <div id='img3' class='item_img'></div>
+             <div id='img4' class='item_img'></div> -->
+        </div>
+    </div>
+    <script>
+    print_btn.onclick = function() {
+        // if (canPrint == true) {
+             $("#print_box").printElement();
+        // }
+
+        // var content = $('#print_box').html();
+        // var pageHeight = 842; // A4 紙張的高度，以像素為單位
+        // var contentHeight = $('#print_box').height();
+        // var pages = Math.ceil(contentHeight / pageHeight);
+
+        // var newWin = window.open('', '_blank');
+        // newWin.document.open();
+        // newWin.document.write('<html><head><title>Print</title></head><body>');
+
+        // for (var i = 0; i < pages; i++) {
+        //     var pageContent = content.slice(i * pageHeight, (i + 1) * pageHeight);
+        //     newWin.document.write('<div class="page">' + pageContent + '</div>');
+        // }
+
+        // newWin.document.write('</body></html>');
+        // newWin.document.close();
+        // newWin.print();
+
+
+    }
+
+    function getParameterByName(name, url) {
+        if (!url) url = window.location.href;
+        name = name.replace(/[\[\]]/g, '\\$&');
+        var regex = new RegExp('[?&]' + name + '(=([^&#]*)|&|#|$)'),
+            results = regex.exec(url);
+        if (!results) return null;
+        if (!results[2]) return '';
+        return decodeURIComponent(results[2].replace(/\+/g, ' '));
+    }
+
+    let columnNum = getParameterByName('columnNum');
+    let allImg = getParameterByName('iurl')
+    allImg = allImg.split(',')
+    let infoData = getParameterByName('data')
+    console.log('columnNum=', columnNum)
+    console.log('allImg=', allImg)
+    console.log('infoData=', infoData)
+
+
+    let canPrint = false
+    if (allImg) {
+        const len = allImg.length
+        if (len > 0) {
+            for (let k = 0; k < allImg.length; k++) {
+                let div = document.createElement('div')
+                let div2 = document.createElement('div')
+                let div3 = document.createElement('div')
+                let img = document.createElement('img')
+                // img.crossOrigin = "anonymous";
+                div.id = "img_div_" + k
+                img.id = "img_" + k
+                div2.id = "img_div2_" + k
+
+                if (columnNum == 1) {
+                    div.className = 'item_img1'
+                }
+                if (columnNum == 2) {
+                    div.className = 'item_img2'
+                }
+                if (columnNum == 3) {
+                    div.className = 'item_img3'
+                }
+                if (columnNum == 4) {
+                    div.className = 'item_img4'
+                }
+                div2.className = 'image_box'
+                div3.className = 'image_box_right'
+                img.src = allImg[k]
+                // img.src = "a1.jpeg"
+                img.className = "image"
+
+                div.appendChild(div2)
+                div.appendChild(div3)
+                div2.appendChild(img)
+                content.appendChild(div)
+                img.onload = function() {
+                    const w = img.offsetWidth
+                    const h = img.offsetHeight
+                    const w1 = div2.offsetWidth
+                    const h1 = div2.offsetHeight
+                    const rate = h / w
+                    const rate1 = h1 / w1
+                    if (rate > rate1) {
+                        img.style.height = "100%"
+                    } else {
+                        img.style.width = "100%"
+                        // const dh = h1 - 
+                    }
+                    // console.log("w=",w)
+                    // console.log("w1=",w1)
+                    // console.log("h=",h)
+                    // console.log("h1=",h1)
+                }
+                if (k == allImg.length - 1) {
+                    checkLoad()
+                }
+            }
+        }
+
+    }
+
+    function checkLoad() {
+        let i = 0
+        const imgID = document.querySelectorAll('img');
+        imgID.forEach((item, index) => {
+            let tmp = []
+            const img = new Image();
+            img.src = item.src;
+
+            img.addEventListener("load", () => {
+
+                i += 1; // 讀取完畢就 + 1
+                // console.log("i==", i);
+                // console.log("id==", item.id);
+                // console.log(item.naturalWidth, item.naturalHeight);
+                if (item.id == "bg") {
+                    orgSize_bg.push(item.naturalWidth)
+                    orgSize_bg.push(item.naturalHeight)
+                }
+                if (item.id == "desk") {
+                    orgSize_desk.push(item.naturalWidth)
+                    orgSize_desk.push(item.naturalHeight)
+                }
+                if (item.id == "picture") {
+                    orgSize_picture.push(item.naturalWidth)
+                    orgSize_picture.push(item.naturalHeight)
+                }
+
+                if (imgID.length === i) { // 當圖片全部讀取完畢就顯示載入完成，這邊可以搭配 Loading 狀態切換畫面
+
+                    console.log('圖片全部載入完成');
+                    //       console.log("orgSize==",orgSize);
+                    // checkSize()
+                    canPrint = true
+                }
+            });
+        })
+    }
+    </script>
+</body>
+
+</html>
