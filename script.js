@@ -176,93 +176,92 @@ async function filterItems() {
 let allCheckbox = []
 
 function createCheckbox() {
-    const tmp = allData.boards[0].columns
-    // console.log('tmp==', tmp)
-    // console.log('len==', tmp.length)
-    const len = tmp.length
-    let allDiv = document.createElement('div')
-    allDiv.className = "item_column"
+    // const tmp = allData.boards[0].columns
+    
+    // const len = tmp.length
+    // let allDiv = document.createElement('div')
+    // allDiv.className = "item_column"
+    // // let n = 0
+    // let allInput = document.createElement("INPUT");
+    // allInput.setAttribute("type", "checkbox");
+    // allInput.id = "checkbox_all"
+    // allInput.className = 'checkbox_css'
+    // let allLabel = document.createElement("Label");
+    // allLabel.setAttribute("for", "checkbox_all");
+    // allLabel.innerHTML = "全部欄位";
+    // allDiv.appendChild(allInput)
+    // allDiv.appendChild(allLabel)
+    // all_item.appendChild(allDiv)
+
+
     // let n = 0
-    let allInput = document.createElement("INPUT");
-    allInput.setAttribute("type", "checkbox");
-    allInput.id = "checkbox_all"
-    allInput.className = 'checkbox_css'
-    let allLabel = document.createElement("Label");
-    allLabel.setAttribute("for", "checkbox_all");
-    allLabel.innerHTML = "全部欄位";
-    allDiv.appendChild(allInput)
-    allDiv.appendChild(allLabel)
-    all_item.appendChild(allDiv)
+    // for (let i = 0; i < len; i++) {
+    //     const id = tmp[i].id
+    //     if (id != "subitems") {
+
+    //         let div = document.createElement('div')
+    //         div.className = "item_column"
+    //         let x = document.createElement("INPUT");
+    //         x.setAttribute("type", "checkbox");
+    //         x.id = tmp[i].id
+    //         x.title = tmp[i].title
+    //         x.className = 'checkbox_css'
+    //         allCheckbox.push(x)
+    //         let newlabel = document.createElement("Label");
+    //         newlabel.setAttribute("for", "checkbox_" + n);
+    //         if (tmp[i].title == 'Name' || tmp[i].title == 'name') {
+    //             newlabel.innerHTML = '項目';
+    //         } else {
+    //             newlabel.innerHTML = tmp[i].title;
+    //         }
+
+    //         div.appendChild(x)
+    //         div.appendChild(newlabel)
+    //         all_item.appendChild(div)
+    //         x.addEventListener('change', function() {
+    //             if (this.checked) {
+    //                 console.log("this=", this)
+    //                 // console.log('allitem is checked.');
+    //                 // 在這裡添加你需要執行的代碼
+
+    //                 // allCheckbox[j].checked = true
+    //                 clearData()
+    //                 setData()
+
+    //             } else {
 
 
-    let n = 0
-    for (let i = 0; i < len; i++) {
-        const id = tmp[i].id
-        if (id != "subitems") {
+    //                 // allCheckbox[j].checked = false
+    //                 clearData()
+    //                 setData()
+    //                 // 在這裡添加你需要執行的代碼
+    //             }
+    //         });
 
-            let div = document.createElement('div')
-            div.className = "item_column"
-            let x = document.createElement("INPUT");
-            x.setAttribute("type", "checkbox");
-            x.id = tmp[i].id
-            x.title = tmp[i].title
-            x.className = 'checkbox_css'
-            allCheckbox.push(x)
-            let newlabel = document.createElement("Label");
-            newlabel.setAttribute("for", "checkbox_" + n);
-            if (tmp[i].title == 'Name' || tmp[i].title == 'name') {
-                newlabel.innerHTML = '項目';
-            } else {
-                newlabel.innerHTML = tmp[i].title;
-            }
+    //         n++
+    //     }
+    // }
 
-            div.appendChild(x)
-            div.appendChild(newlabel)
-            all_item.appendChild(div)
-            x.addEventListener('change', function() {
-                if (this.checked) {
-                    console.log("this=", this)
-                    // console.log('allitem is checked.');
-                    // 在這裡添加你需要執行的代碼
-
-                    // allCheckbox[j].checked = true
-                    clearData()
-                    setData()
-
-                } else {
-
-
-                    // allCheckbox[j].checked = false
-                    clearData()
-                    setData()
-                    // 在這裡添加你需要執行的代碼
-                }
-            });
-
-            n++
-        }
-    }
-
-    allInput.addEventListener('change', function() {
-        if (this.checked) {
-            console.log("this=", this)
-            // console.log('allitem is checked.');
-            // 在這裡添加你需要執行的代碼
-            for (let j = 0; j < allCheckbox.length; j++) {
-                allCheckbox[j].checked = true
-                clearData()
-                setData()
-            }
-        } else {
-            console.log('allitem is unchecked.');
-            for (let j = 0; j < allCheckbox.length; j++) {
-                allCheckbox[j].checked = false
-                clearData()
-                checkData()
-            }
-            // 在這裡添加你需要執行的代碼
-        }
-    });
+    // allInput.addEventListener('change', function() {
+    //     if (this.checked) {
+    //         console.log("this=", this)
+    //         // console.log('allitem is checked.');
+    //         // 在這裡添加你需要執行的代碼
+    //         for (let j = 0; j < allCheckbox.length; j++) {
+    //             allCheckbox[j].checked = true
+    //             clearData()
+    //             setData()
+    //         }
+    //     } else {
+    //         console.log('allitem is unchecked.');
+    //         for (let j = 0; j < allCheckbox.length; j++) {
+    //             allCheckbox[j].checked = false
+    //             clearData()
+    //             checkData()
+    //         }
+    //         // 在這裡添加你需要執行的代碼
+    //     }
+    // });
 
 
 
