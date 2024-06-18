@@ -728,7 +728,7 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 
-function changeValue{
+function changeValue (){
     const columnId = 'formula5__1'; // 要更新的 column ID
     const newValue = '5'; // 新的 column values
 
