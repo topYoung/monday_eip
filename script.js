@@ -153,6 +153,7 @@ async function getNextItem() {
         limit += 500
     } else {
         first = false
+        changeValue()
         // createImage()
     }
 }
@@ -165,6 +166,7 @@ async function filterItems() {
         limit += 500
     } else {
         first = false
+        changeValue()
         // createImage()
     }
 
@@ -429,6 +431,7 @@ monday.listen("itemIds", (res) => {
     filterID = res.data
     console.log('first==', first)
     if (first == false) {
+        changeValue()
         // createImage()
     }
     console.log("newFilterId=", filterID)
@@ -723,6 +726,45 @@ document.addEventListener('DOMContentLoaded', function() {
     // });
 
 });
+
+
+function changeValue{
+    const columnId = 'formula5__1'; // 要更新的 column ID
+    const newValue = '5'; // 新的 column values
+
+    const query = `
+${itemIds.map(id => `
+  changeItem_${id}: change_column_value(board_id: ${boardId}, item_id: ${id}, column_id: "${columnId}", value: "${newValue}") {
+    id
+    name
+  }
+`).join('\n')}
+`;
+
+    // 發送 POST 請求到 monday.com API
+    fetch(url, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': apiKey
+            },
+            body: JSON.stringify({
+                query: query
+            })
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (Object.values(data).every(result => result && result.changeItem)) {
+                console.log('Multiple column values changed successfully:', Object.values(data));
+            } else {
+                console.error('Failed to change multiple column values:', data.errors);
+            }
+        })
+        .catch(error => {
+            console.error('Error fetching data:', error);
+        });
+
+}
 
 function resetColumn() {
     if (oldColumn != 'none') {
