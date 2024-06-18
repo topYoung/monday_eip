@@ -729,7 +729,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
 
 function changeValue() {
-    const columnId = 'project_dependency'; // 要更新的 column ID
+    const columnId = 'text__1'; // 要更新的 column ID
     const value = '5'; // 新的 column values
 
     for (let i = 0; i < filterID.length; i++) {
