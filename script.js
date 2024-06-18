@@ -733,7 +733,7 @@ function changeValue (){
     const newValue = '5'; // 新的 column values
 
     const query = `
-${itemIds.map(id => `
+${filterID.map(id => `
   changeItem_${id}: change_column_value(board_id: ${boardId}, item_id: ${id}, column_id: "${columnId}", value: "${newValue}") {
     id
     name
