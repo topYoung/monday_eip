@@ -737,7 +737,7 @@ function changeValue() {
         mutation {
             change_simple_column_value (
             board_id: ${boardId}, 
-            item_id: ${filterID.[i]}, 
+            item_id: ${filterID[i]}, 
             column_id: "${columnId}", 
             value: "${value}"
             ) {
