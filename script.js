@@ -179,7 +179,7 @@ let allCheckbox = []
 
 function createCheckbox() {
     // const tmp = allData.boards[0].columns
-    
+
     // const len = tmp.length
     // let allDiv = document.createElement('div')
     // allDiv.className = "item_column"
@@ -282,16 +282,16 @@ function setData() {
                 const id = checkbox.id
                 const title = checkbox.title
                 let tmp3 = allData.boards[0].columns
-                
+
                 let isImg = false
                 // for (let k = 0; k < tmp3.length; k++) {
                 //     const ti = tmp3[k].title
-                    if (title[title.length - 2] == "照" && title[title.length - 1] == '片') {
-                        isImg = true
-                        // break;
-                    }
+                if (title[title.length - 2] == "照" && title[title.length - 1] == '片') {
+                    isImg = true
+                    // break;
+                }
                 // }
-                console.log("isImg=",isImg)
+                console.log("isImg=", isImg)
                 let txt = ''
                 let txt2 = ''
                 for (let k = 0; k < id.length; k++) {
@@ -408,13 +408,13 @@ monday.listen('filter', (res) => {
 
 
 monday.listen("events", async (event) => {
-    console.log("event.type==",event.type)
-  // if (event.type === "item_update") {
-  //   // 處理 item 更新事件
-  //   const updatedItem = event.item;
-  //   console.log(`Item ${updatedItem.id} has been updated`);
-  //   // 根據需要進行額外的操作，如更新其他相關的 item
-  // }
+    console.log("event.type==", event.type)
+    // if (event.type === "item_update") {
+    //   // 處理 item 更新事件
+    //   const updatedItem = event.item;
+    //   console.log(`Item ${updatedItem.id} has been updated`);
+    //   // 根據需要進行額外的操作，如更新其他相關的 item
+    // }
 });
 
 //@ts-ignore
@@ -728,41 +728,84 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 
-function changeValue (){
+function changeValue() {
     const columnId = 'formula5__1'; // 要更新的 column ID
-    const newValue = '5'; // 新的 column values
+    const value = '5'; // 新的 column values
 
-    const query = `
-${filterID.map(id => `
-  changeItem_${id}: change_column_value(board_id: ${boardId}, item_id: ${id}, column_id: "${columnId}", value: "${newValue}") {
-    id
-    name
-  }
-`).join('\n')}
-`;
-
-    // 發送 POST 請求到 monday.com API
-    fetch(url, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': apiKey
-            },
-            body: JSON.stringify({
-                query: query
-            })
-        })
-        .then(response => response.json())
-        .then(data => {
-            if (Object.values(data).every(result => result && result.changeItem)) {
-                console.log('Multiple column values changed successfully:', Object.values(data));
-            } else {
-                console.error('Failed to change multiple column values:', data.errors);
+    for (let i = 0; i < filterID.length; i++) {
+        var query = `
+        mutation {
+            change_simple_column_value (
+            board_id: ${boardId}, 
+            item_id: ${filterID.[i]}, 
+            column_id: "${columnId}", 
+            value: "${value}"
+            ) {
+            id
             }
-        })
-        .catch(error => {
-            console.error('Error fetching data:', error);
-        });
+        }`;
+        // let query2 = `
+ // query {
+ //    next_items_page (limit: 500, cursor: "${cursor}") {
+ //    cursor
+ //    items {
+ //      id
+ //      name
+ //      column_values{
+ //            id
+ //            text
+ //            value
+ //          }
+ //      }
+ //    }   
+ //  }
+ // `;
+
+        fetch("https://api.monday.com/v2", {
+                method: 'post',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': apiKey
+                },
+                body: JSON.stringify({
+                    'query': query
+                })
+            })
+            .then(res => res.json())
+            .then(res => console.log(JSON.stringify(res, null, 2)));
+    }
+
+    //     const query = `
+    // ${filterID.map(id => `
+    //   changeItem_${id}: change_column_value(board_id: ${boardId}, item_id: ${id}, column_id: "${columnId}", value: "${newValue}") {
+    //     id
+    //     name
+    //   }
+    // `).join('\n')}
+    // `;
+
+    //     // 發送 POST 請求到 monday.com API
+    //     fetch(url, {
+    //             method: 'POST',
+    //             headers: {
+    //                 'Content-Type': 'application/json',
+    //                 'Authorization': apiKey
+    //             },
+    //             body: JSON.stringify({
+    //                 query: query
+    //             })
+    //         })
+    //         .then(response => response.json())
+    //         .then(data => {
+    //             if (Object.values(data).every(result => result && result.changeItem)) {
+    //                 console.log('Multiple column values changed successfully:', Object.values(data));
+    //             } else {
+    //                 console.error('Failed to change multiple column values:', data.errors);
+    //             }
+    //         })
+    //         .catch(error => {
+    //             console.error('Error fetching data:', error);
+    //         });
 
 }
 
