@@ -728,6 +728,7 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 let changeValue = Math.floor(Math.random(10)*10)
+console.log('changeValue=',changeValue)
 
 function changeValue() {
     const columnId = 'text__1'; // 要更新的 column ID
