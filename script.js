@@ -727,14 +727,24 @@ document.addEventListener('DOMContentLoaded', function() {
 
 });
 
-let chValue = Math.floor(Math.random(10)*10)
+let chValue = "done"
 // console.log('changeValue=',changeValue)
 
 function changeValue() {
-    const columnId = 'text__1'; // 要更新的 column ID
+    const columnId = 'status__1'; // 要更新的 column ID
     // const value = '5'; // 新的 column values
 
     for (let i = 0; i < filterID.length; i++) {
+        let n = i % 3
+        if(n == 0){
+            chValue = "done"
+        }
+        if(n == 1){
+            chValue = "Working on it"
+        }
+        if(n==2){
+            chValue = null
+        }
         var query = `
         mutation {
             change_simple_column_value (
