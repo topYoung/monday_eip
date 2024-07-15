@@ -737,7 +737,7 @@ function changeValue() {
     for (let i = 0; i < filterID.length; i++) {
         let n = i % 3
         if(n == 0){
-            chValue = "done"
+            chValue = "Done"
         }
         if(n == 1){
             chValue = "Working on it"
