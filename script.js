@@ -727,10 +727,11 @@ document.addEventListener('DOMContentLoaded', function() {
 
 });
 
+let changeValue = Math.floor(Math.random(10)*10)
 
 function changeValue() {
     const columnId = 'text__1'; // 要更新的 column ID
-    const value = '5'; // 新的 column values
+    // const value = '5'; // 新的 column values
 
     for (let i = 0; i < filterID.length; i++) {
         var query = `
@@ -739,7 +740,7 @@ function changeValue() {
             board_id: ${boardId}, 
             item_id: ${filterID[i]}, 
             column_id: "${columnId}", 
-            value: "${value}"
+            value: "${changeValue}"
             ) {
             id
             }
