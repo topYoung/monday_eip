@@ -727,8 +727,8 @@ document.addEventListener('DOMContentLoaded', function() {
 
 });
 
-let changeValue = Math.floor(Math.random(10)*10)
-console.log('changeValue=',changeValue)
+let chValue = Math.floor(Math.random(10)*10)
+// console.log('changeValue=',changeValue)
 
 function changeValue() {
     const columnId = 'text__1'; // 要更新的 column ID
@@ -741,7 +741,7 @@ function changeValue() {
             board_id: ${boardId}, 
             item_id: ${filterID[i]}, 
             column_id: "${columnId}", 
-            value: "${changeValue}"
+            value: "${chValue}"
             ) {
             id
             }
