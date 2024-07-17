@@ -728,12 +728,10 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 let chValue = {index:5}
-// console.log('changeValue=',changeValue)
 
 function changeValue() {
     const columnId = 'status__1'; // 要更新的 column ID
-    // const value = '5'; // 新的 column values
-
+    let currentChValue = {index:5}
     for (let i = 0; i < filterID.length; i++) {
         let n = i % 3
         if(n == 0){
@@ -749,29 +747,13 @@ function changeValue() {
             board_id: ${boardId}, 
             item_id: ${filterID[i]}, 
             column_id: "${columnId}", 
-            value: "${chValue}"
+            value: ${JSON.stringify(currentChValue)}
             ) {
             id
             }
         }`;
 
-        //value: "${chValue}"
-        // let query2 = `
- // query {
- //    next_items_page (limit: 500, cursor: "${cursor}") {
- //    cursor
- //    items {
- //      id
- //      name
- //      column_values{
- //            id
- //            text
- //            value
- //          }
- //      }
- //    }   
- //  }
- // `;
+       
 
         fetch("https://api.monday.com/v2", {
                 method: 'post',
