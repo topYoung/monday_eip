@@ -727,7 +727,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
 });
 
-let chValue = "null"
+let chValue = "{\"index\":5}"
 // console.log('changeValue=',changeValue)
 
 function changeValue() {
@@ -735,16 +735,14 @@ function changeValue() {
     // const value = '5'; // 新的 column values
 
     for (let i = 0; i < filterID.length; i++) {
-        // let n = i % 3
-        // if(n == 0){
-        //     chValue = "Done"
-        // }
-        // if(n == 1){
-        //     chValue = "Working on it"
-        // }
-        // if(n==2){
-        //     chValue = null
-        // }
+        let n = i % 3
+        if(n == 0){
+            chValue = "{\"index\":5}"
+        }
+        if(n == 1){
+            chValue = "{\"index\":1}"
+        }
+        
         var query = `
         mutation {
             change_column_value (
