@@ -727,6 +727,14 @@ document.addEventListener('DOMContentLoaded', function() {
 
 });
 
+const myTimeout = setTimeout(myGreeting, 2000);
+
+function myStopFunction() {
+  info.innerHTML = "重置成功"
+  clearTimeout(myTimeout);
+}
+
+
 let chValue = ""
 // console.log('changeValue=',changeValue)
 
