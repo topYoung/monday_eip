@@ -1,7 +1,7 @@
 // let token = 'eyJhbGciOiJIUzI1NiJ9.eyJ0aWQiOjMzNTg4OTE2MCwiYWFpIjoxMSwidWlkIjo1NzQ0NDIwOSwiaWFkIjoiMjAyNC0wMy0yMVQwMjo0MDoyNS4wMDBaIiwicGVyIjoibWU6d3JpdGUiLCJhY3RpZCI6MTIyNjMxODUsInJnbiI6InVzZTEifQ.TWvpOEhzwOTH5TeoaFeIbkUJAMSIWBytryEIH4cUrEw'
 
 // let query = 'query { boards(ids: 6292532342 limit: 10) { columns{id title} items_page{ items{ name column_values{ id text value }}}}}';
-// window.jsPDF = window.jspdf.jsPDF
+window.jsPDF = window.jspdf.jsPDF
 
 let title1 = ""
 let title2 = ""
@@ -727,70 +727,66 @@ document.addEventListener('DOMContentLoaded', function() {
 
 });
 
-
-
-
-// mutation {
-//   change_simple_column_value (item_id:9876543210, board_id:1234567890, column_id:"status", value: "8") {
-//     id
-//   }
-// }
+let chValue = ""
+// console.log('changeValue=',changeValue)
 
 function changeValue() {
     const columnId = 'status__1'; // 要更新的 column ID
+    // const value = '5'; // 新的 column values
 
     for (let i = 0; i < filterID.length; i++) {
-
-        let variables = {
-            boardId: boardId,
-            itemId: filterID[i],
-            columnId: "status__1",
-            newValue: "Done"
-        };
-
         let n = i % 3
-        if (n == 0) {
-            variables = {
-                boardId: boardId,
-                itemId: filterID[i],
-                columnId: "status__1",
-                newValue: "Done"
-            };
+        if(n == 0){
+            chValue = "Done"
         }
-        if (n == 1) {
-            variables = {
-                boardId: boardId,
-                itemId: filterID[i],
-                columnId: "status__1",
-                newValue: ""
-            };
+        if(n == 1){
+            chValue = "Working on it"
         }
+        if(n==2){
+            chValue = ""
+        }
+        var query = `
+        mutation {
+            change_simple_column_value (
+            board_id: ${boardId}, 
+            item_id: ${filterID[i]}, 
+            column_id: "${columnId}", 
+            value: "${chValue}"
+            ) {
+            id
+            }
+        }`;
+        // let query2 = `
+ // query {
+ //    next_items_page (limit: 500, cursor: "${cursor}") {
+ //    cursor
+ //    items {
+ //      id
+ //      name
+ //      column_values{
+ //            id
+ //            text
+ //            value
+ //          }
+ //      }
+ //    }   
+ //  }
+ // `;
 
-
-        // 使用變數構造 GraphQL mutation
-        const query = `
-mutation ChangeSimpleColumnValue($boardId: Int!, $itemId: Int!, $columnId: String!, $newValue: String!) {
-  change_simple_column_value(board_id: $boardId, item_id: $itemId, column_id: $columnId, value: $newValue) {
-    id
-  }
-}`;
-
-        // 使用 fetch 發送請求
         fetch("https://api.monday.com/v2", {
                 method: 'post',
                 headers: {
                     'Content-Type': 'application/json',
-                    'Authorization': 'YOUR_API_KEY_HERE'
+                    'Authorization': apiKey
                 },
                 body: JSON.stringify({
-                    query: query,
-                    variables: variables
+                    'query': query
                 })
             })
             .then(res => res.json())
-            .then(res => console.log(JSON.stringify(res, null, 2)))
-            .catch(err => console.error(err));
+            .then(res => console.log(JSON.stringify(res, null, 2)));
     }
+
     //     const query = `
     // ${filterID.map(id => `
     //   changeItem_${id}: change_column_value(board_id: ${boardId}, item_id: ${id}, column_id: "${columnId}", value: "${newValue}") {
