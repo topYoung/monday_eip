@@ -751,11 +751,13 @@ function changeValue() {
             board_id: ${boardId}, 
             item_id: ${filterID[i]}, 
             column_id: "${columnId}", 
-            value: "${chValue}"
+            text: "${chValue}"
             ) {
             id
             }
         }`;
+
+        //value: "${chValue}"
         // let query2 = `
  // query {
  //    next_items_page (limit: 500, cursor: "${cursor}") {
