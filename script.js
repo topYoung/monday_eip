@@ -743,16 +743,16 @@ function changeValue() {
     // const value = '5'; // 新的 column values
 
     for (let i = 0; i < filterID.length; i++) {
-        let n = i % 3
-        if(n == 0){
-            chValue = "Done"
-        }
-        if(n == 1){
-            chValue = "Working on it"
-        }
-        if(n==2){
-            chValue = ""
-        }
+        // let n = i % 3
+        // if(n == 0){
+        //     chValue = "Done"
+        // }
+        // if(n == 1){
+        //     chValue = "Working on it"
+        // }
+        // if(n==2){
+        //     chValue = ""
+        // }
         var query = `
         mutation {
             change_simple_column_value (
