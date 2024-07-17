@@ -727,7 +727,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
 });
 
-let chValue = "{\"index\":5}"
+let chValue = {index:5}
 // console.log('changeValue=',changeValue)
 
 function changeValue() {
@@ -737,10 +737,10 @@ function changeValue() {
     for (let i = 0; i < filterID.length; i++) {
         let n = i % 3
         if(n == 0){
-            chValue = "{\"index\":5}"
+            chValue = {index:5}
         }
         if(n == 1){
-            chValue = "{\"index\":1}"
+            chValue = {index:1}
         }
         
         var query = `
