@@ -731,7 +731,7 @@ let chValue = {index:5}
 
 function changeValue() {
     const columnId = 'status__1'; // 要更新的 column ID
-    let currentChValue = {index:5}
+    
     for (let i = 0; i < filterID.length; i++) {
         let n = i % 3
         if(n == 0){
@@ -740,14 +740,14 @@ function changeValue() {
         if(n == 1){
             chValue = {index:1}
         }
-        
+        let currentChValue = JSON.stringify(chValue)
         var query = `
         mutation {
             change_column_value (
             board_id: ${boardId}, 
             item_id: ${filterID[i]}, 
             column_id: "${columnId}", 
-            value: ${JSON.stringify(currentChValue)}
+            value: "${currentChValue}"
             ) {
             id
             }
