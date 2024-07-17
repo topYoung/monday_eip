@@ -727,7 +727,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
 });
 
-let chValue = null
+let chValue = "null"
 // console.log('changeValue=',changeValue)
 
 function changeValue() {
@@ -751,7 +751,7 @@ function changeValue() {
             board_id: ${boardId}, 
             item_id: ${filterID[i]}, 
             column_id: "${columnId}", 
-            text: "${chValue}"
+            value: "${chValue}"
             ) {
             id
             }
