@@ -727,7 +727,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
 });
 
-let chValue = null
+let chValue = "done"
 // console.log('changeValue=',changeValue)
 
 function changeValue() {
@@ -735,16 +735,16 @@ function changeValue() {
     // const value = '5'; // 新的 column values
 
     for (let i = 0; i < filterID.length; i++) {
-        // let n = i % 3
-        // if(n == 0){
-        //     chValue = "Done"
-        // }
-        // if(n == 1){
-        //     chValue = "Working on it"
-        // }
-        // if(n==2){
-        //     chValue = null
-        // }
+        let n = i % 3
+        if(n == 0){
+            chValue = "Done"
+        }
+        if(n == 1){
+            chValue = "Working on it"
+        }
+        if(n==2){
+            chValue = null
+        }
         var query = `
         mutation {
             change_simple_column_value (
@@ -954,5 +954,288 @@ function setItem(n) {
     }
 
 }
+// async function settingItems(boardId) {
+//     const query = `
+//  query {
+//     boards(ids: 6292532342) {
+//       items_page {
+//         items {
+//           id
+//           name
+//           column_values {
+//             id
+//             text
+//             value
+//           }
+//         }
+//       }
+//     }
+//  }
+//  `;
+
+//     // 使用monday SDK來執行GraphQL查詢
+//     const response = await monday.api(query);
+
+//     // 檢查查詢是否成功
+//     if (!response.data) {
+//         throw new Error('查詢失敗');
+//     }
+
+//     // 返回查詢結果中的項目
+//     return response.data.boards[0].items_page.items;
+// }
+
+// async function filterItems(boardId, filterField, filterValue) {
+//     // 抓取項目
+//     const settingList = await settingItems(boardId);
+//     console.log("settingList===", settingList)
+//     // 過濾項目
+
+// }
+
+// //使用範例
+// filterItems(6292532342, 'Status', 'In Progress');
 
 
+//a4 : 72解析度 595/842
+
+function generatePDF() {
+    // const url = "print.html?"+"columnNum=" + columnNum + "&iurl=" + allImg + "&data=aaa" 
+    // window.open(url, '_blank');
+    // window.location.href = url
+    // all.style.height = "auto"
+    // var content = $('#content_all').html();
+    //     var pageHeight = 842; // A4 紙張的高度，以像素為單位
+    //     var contentHeight = $('#content_all').height();
+    //     console.log("contentHeight==",contentHeight)
+    //     var pages = Math.ceil(contentHeight / pageHeight);
+
+    //     var newWin = window.open('', '_blank');
+    //     newWin.document.open();
+    //     newWin.document.write('<html><head><title>Print</title>');
+    //     newWin.document.write('<link rel="stylesheet" type="text/css" href="style.css">');
+    //     newWin.document.write('</head><body>');
+    //     for (var i = 0; i < pages; i++) {
+    //         var pageContent = content.slice(i * pageHeight, (i + 1) * pageHeight);
+    //         newWin.document.write('<div class="print-content">' + pageContent + '</div>');
+    //     }
+
+    //     newWin.document.write('</body></html>');
+    //     // newWin.document.close();
+    //      newWin.print();
+
+    var divToPrint = document.getElementById('content_all');
+    var newWin = window.open('', '_blank');
+    newWin.document.open();
+    newWin.document.write('<html><head><title>Print</title>')
+    newWin.document.write('<link rel="stylesheet" type="text/css" href="style.css">');
+    // newWin.document.write('</head><body onload="window.print()">');
+    newWin.document.write('</head><body>');
+    // newWin.document.write('<html><head><title>Print</title></head><body>');
+    newWin.document.write('<div class="print-content">' + divToPrint.innerHTML + '</div>');
+    newWin.document.write('<button id="pdf_btn" onclick="goPrint()">列  印</button>')
+    newWin.document.write('<div id="loader" style="z-index: 900"><img src="loading.svg"></div>')
+    newWin.document.write('<script src="print.js"></script>');
+    newWin.document.write('</body></html>');
+    newWin.document.close();
+
+
+    // all.style.height = "100vh"
+
+    // var divToPrint = document.getElementById('all');
+    //         var newWin = window.open('', '_blank');
+    //         newWin.document.open();
+    //         newWin.document.write('<html><head><title>Print</title></head><body>');
+    //         newWin.document.write($('#all').html() );
+    //         newWin.document.write('</body></html>');
+    //         // newWin.document.close();
+    //         newWin.print();
+    // $("#all").printElement();
+
+
+    // const divId = 'all'
+    //    var newWin=window.open('','列印視窗');
+    // newWin.document.open();
+    // newWin.document.write('<html>'+
+    //   '<head>'+
+    //     '<link rel="stylesheet" href="style.css">'+
+    //   '</head>'+
+    //   '<body  onload="window.print()">'+
+    //     $('#all').html()+
+    //   '</body>'+
+    // '</html>');
+    // newWin.document.close();
+    // setTimeout(function(){newWin.close();},10);
+
+    // // 獲取要轉換的 HTML 元素
+    // var node = document.getElementById('all');
+
+    // 使用 dom-to-image 库將 HTML 元素轉換為圖像
+    // domtoimage.toPng(node)
+    //     .then(function(dataUrl) {
+    //         // 創建 PDF 實例
+    //         var pdf = new jsPDF('p', 'mm', 'a4');
+
+    //         // 添加圖像到 PDF 中
+    //         pdf.addImage(dataUrl, 'PNG', 0, 0, 210, 297); // 210x297 是 A4 尺寸
+
+    //         // 保存 PDF
+    //         pdf.save('htmltopdf_' + new Date().getTime() + '.pdf');
+    //     })
+    //     .catch(function(error) {
+    //         console.error('圖像轉換錯誤:', error);
+    //     });
+
+    // var html_content = $('#all').html();
+    // $("#download").contents().find("#wrapper").html(html_content);
+
+    // // 使用html2canvas轉換HTML內容為Canvas
+    // html2canvas($('#download').get(0)).then(function(canvas) {
+    //     var imgData = canvas.toDataURL('image/png');
+    //     console.log('imgData=',imgData)
+    //     var pdf = new jsPDF('p','pt','a4');
+    //     pdf.internal.scaleFactor = 2;
+    //     var imgWidth = 210; // A4 width in mm
+    //     var imgHeight = canvas.height * imgWidth / canvas.width;
+    //     pdf.addImage(imgData, 'PNG', 15, 15, imgWidth, imgHeight);
+    //     pdf.save('htmltopdf_' + new Date().getTime() + '.pdf');
+    // });
+
+    //   const divId = "all"
+    //   let mywindow = window.open('', 'PRINT', 'height=650,width=900,top=100,left=150');
+
+    // mywindow.document.write(`<html><head>`);
+    // mywindow.document.write('</head><body >');
+    // mywindow.document.write(document.getElementById(divId).innerHTML);
+    // mywindow.document.write('</body></html>');
+
+    // mywindow.document.close(); // necessary for IE >= 10
+    // mywindow.focus(); // necessary for IE >= 10*/
+
+    // mywindow.print();
+    // mywindow.close();
+
+    // trans.style.visibility = 'visible'
+    // let doc = new jsPDF()
+    // const divId = "all"
+    // doc.fromHTML(`<html><head></head><body>` + document.getElementById(divId).innerHTML + `</body></html>`);
+    // doc.save('sample.pdf');
+    // trans.style.visibility = 'hidden'
+    // var pdf = new jsPDF();
+
+    // var divs = document.querySelectorAll('.image_box');
+    // var pdfCounter = 0;
+
+
+    // // 生成 PDF 函數
+    // function generatePdf() {
+    //     // 如果還有子 div 沒有處理，則處理下一個子 div
+    //     console.log("pdfCounter==",pdfCounter)
+    //     console.log('divs.length==',divs.length)
+    //     if (pdfCounter < divs.length) {
+    //         var div = divs[pdfCounter];
+
+    //         // 獲取子 div 內的圖片 URL
+    //         // 獲取子 div 內的圖片
+    //         var img = div.querySelector('img');
+    //         // img.crossOrigin = "Anonymous";
+    //         // 確保圖片存在
+    //         if (img) {
+    //             // 獲取圖片 URL
+    //             var imgUrl = img.src;
+    //             console.log("src=", imgUrl)
+    //             console.log("endsWith=", imgUrl.toLowerCase().endsWith('.jpg'))
+    //             // 檢查圖片格式
+    //             if ( imgUrl.toLowerCase().endsWith('.jpeg')) {
+    //                 // 圖片是 JPEG 格式，直接添加到 PDF 中
+    //                 pdf.addImage(imgUrl, 'JPEG', 10, 10 + pdfCounter * 150, 180, 150); // 調整位置和大小
+    //                 pdfCounter++;
+    //                 generatePdf();
+    //             } else if (imgUrl.toLowerCase().endsWith('.jpg')) {
+    //                 // 圖片是 PNG 格式，使用 html2canvas 將圖片轉換為 JPEG 格式
+    //                 html2canvas(img).then(function(canvas) {
+    //                     var imgUrlData = canvas.toDataURL('image/jpeg');
+
+    //                     // 添加圖片到 PDF 中
+    //                     pdf.addImage(imgUrlData, 'JPEG', 10, 10 + pdfCounter * 150, 180, 150); // 調整位置和大小
+    //                     pdfCounter++;
+    //                     generatePdf();
+    //                 });
+    //             } else if (imgUrl.toLowerCase().endsWith('.png')) {
+    //                 // 圖片是 PNG 格式，使用 html2canvas 將圖片轉換為 JPEG 格式
+    //                 html2canvas(img).then(function(canvas) {
+    //                     var imgUrlData = canvas.toDataURL('image/jpeg');
+
+    //                     // 添加圖片到 PDF 中
+    //                     pdf.addImage(imgUrlData, 'JPEG', 10, 10 + pdfCounter * 150, 180, 150); // 調整位置和大小
+    //                     pdfCounter++;
+    //                     generatePdf();
+    //                 });
+    //             } else {
+    //                 // 其他格式的圖片，忽略並處理下一張圖片
+    //                 pdfCounter++;
+    //                 generatePdf();
+    //             }
+    //         }
+    //     } else {
+    //         // 如果所有圖片都添加完成，則將 PDF 下載到本地
+    //         trans.style.visibility = 'hidden'
+    //         pdf.save('example.pdf');
+    //     }
+    // }
+
+    // // 開始生成 PDF
+    // generatePdf();
+
+    // async function generatePDF() {
+    //     var doc = new jsPDF();
+    //     var imgWidth = 210; // A4 width in mm
+    //     var pageHeight = 295; // A4 height in mm
+    //     var position = 0;
+
+    //     var imageContainers = document.querySelectorAll('.image_box');
+    //     for (let container of imageContainers) {
+    //         await html2canvas(container).then(function(canvas) {
+    //             var imgData = canvas.toDataURL('image/png');
+    //             var imgHeight = canvas.height * imgWidth / canvas.width;
+    //             doc.addImage(imgData, 'PNG', 0, position, imgWidth, imgHeight);
+    //             position += imgHeight;
+
+    //             if (position > pageHeight) {
+    //                 doc.addPage();
+    //                 position = 0;
+    //             }
+    //         });
+    //     }
+    //     trans.style.visibility = 'hidden'
+    //     doc.save('sample.pdf');
+    // }
+
+
+    // const element = document.getElementById('all')
+
+    // html2canvas(element).then(function(canvas) {
+    //     var imgData = canvas.toDataURL('image/png');
+    //     var doc = new jsPDF('p', 'mm', 'a4'); // 使用A4紙張大小
+    //     var imgWidth = 210; // A4 width in mm
+    //     var pageHeight = 295; // A4 height in mm
+    //     var imgHeight = canvas.height * imgWidth / canvas.width;
+    //     var heightLeft = imgHeight;
+    //     var position = 0;
+
+    //     // 添加第一頁
+    //     doc.addImage(imgData, 'PNG', 0, position, imgWidth, imgHeight);
+    //     heightLeft -= pageHeight;
+
+    //     // 如果內容超過一頁，則添加更多頁面
+    //     while (heightLeft >= 0) {
+    //         position = heightLeft - imgHeight;
+    //         doc.addPage();
+    //         doc.addImage(imgData, 'PNG', 0, position, imgWidth, imgHeight);
+    //         heightLeft -= pageHeight;
+    //     }
+    //     doc.save('sample.pdf');
+    //     trans.style.visibility = 'hidden'
+    // });
+
+}
