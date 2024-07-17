@@ -747,7 +747,7 @@ function changeValue() {
         // }
         var query = `
         mutation {
-            change_simple_column_value (
+            change_column_value (
             board_id: ${boardId}, 
             item_id: ${filterID[i]}, 
             column_id: "${columnId}", 
