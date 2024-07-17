@@ -1,7 +1,7 @@
 // let token = 'eyJhbGciOiJIUzI1NiJ9.eyJ0aWQiOjMzNTg4OTE2MCwiYWFpIjoxMSwidWlkIjo1NzQ0NDIwOSwiaWFkIjoiMjAyNC0wMy0yMVQwMjo0MDoyNS4wMDBaIiwicGVyIjoibWU6d3JpdGUiLCJhY3RpZCI6MTIyNjMxODUsInJnbiI6InVzZTEifQ.TWvpOEhzwOTH5TeoaFeIbkUJAMSIWBytryEIH4cUrEw'
 
 // let query = 'query { boards(ids: 6292532342 limit: 10) { columns{id title} items_page{ items{ name column_values{ id text value }}}}}';
-window.jsPDF = window.jspdf.jsPDF
+// window.jsPDF = window.jspdf.jsPDF
 
 let title1 = ""
 let title2 = ""
@@ -727,7 +727,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
 });
 
-let chValue = "done"
+let chValue = null
 // console.log('changeValue=',changeValue)
 
 function changeValue() {
@@ -735,16 +735,16 @@ function changeValue() {
     // const value = '5'; // 新的 column values
 
     for (let i = 0; i < filterID.length; i++) {
-        let n = i % 3
-        if(n == 0){
-            chValue = "Done"
-        }
-        if(n == 1){
-            chValue = "Working on it"
-        }
-        if(n==2){
-            chValue = null
-        }
+        // let n = i % 3
+        // if(n == 0){
+        //     chValue = "Done"
+        // }
+        // if(n == 1){
+        //     chValue = "Working on it"
+        // }
+        // if(n==2){
+        //     chValue = null
+        // }
         var query = `
         mutation {
             change_simple_column_value (
