@@ -750,8 +750,8 @@ function changeValue() {
     console.log('columnId=',columnId)
     let itemId = ''
     for(let k=0;k<itemList.length;k++){
-        if(tmp[k].name == "物料B"){
-            itemId = tmp[k].id
+        if(itemList[k].name == "物料B"){
+            itemId = itemList[k].id
         }
 
     }
