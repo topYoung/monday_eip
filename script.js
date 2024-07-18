@@ -739,10 +739,27 @@ let chValue = ""
 // console.log('changeValue=',changeValue)
 
 function changeValue() {
-    const columnId = 'status__1'; // 要更新的 column ID
+    let  columnId = ''; // 要更新的 column ID
+    const tmp = allData.boards[0].columns
+    for(let j=0;j<tmp.length;j++){
+        if(tmp[j].title == "Status"){
+            columnId = tmp[j].id
+        }
+    }
+
+    console.log('columnId=',columnId)
+    let itemId = ''
+    for(let k=0;k<itemList.length;k++){
+        if(tmp[k].name == "物料B"){
+            itemId = tmp[k].id
+        }
+
+    }
+
+    console.log('itemId=',itemId)
     // const value = '5'; // 新的 column values
 
-    for (let i = 0; i < filterID.length; i++) {
+    // for (let i = 0; i < filterID.length; i++) {
         // let n = i % 3
         // if(n == 0){
         //     chValue = "Done"
@@ -757,7 +774,7 @@ function changeValue() {
         mutation {
             change_simple_column_value (
             board_id: ${boardId}, 
-            item_id: ${filterID[i]}, 
+            item_id: ${itemId}, 
             column_id: "${columnId}", 
             value: "${chValue}"
             ) {
@@ -793,7 +810,7 @@ function changeValue() {
             })
             .then(res => res.json())
             .then(res => console.log(JSON.stringify(res, null, 2)));
-    }
+    // }
 
     //     const query = `
     // ${filterID.map(id => `
