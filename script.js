@@ -640,9 +640,9 @@ function changeValue() {
         .then(data => {
             console.log("update_data", data); // 打印获取到的数据
             const success = data.Success
-            const signStatus = data.SignStatus
+            const processStatus = data.ProcessStatus
             if (success == true) {
-                if (signStatus == "Success") {
+                if (processStatus == "Success") {
                     var query = `
                                 mutation {
                                 change_simple_column_value (
