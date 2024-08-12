@@ -176,6 +176,7 @@ function checkUpdate() {
         }
     }
 
+    console.log('of==',of)
     if ( of == true) {
         if (status != "Done") {
             info.innerHTML = "無須重置"
