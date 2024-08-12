@@ -60,6 +60,8 @@ let oldColumn = 'none'
 let itemCount = 0
 let cursor = ''
 let limit = 500
+let owner
+let user
 async function fetchItems() {
     const query = `
  query {
