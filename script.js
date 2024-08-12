@@ -63,7 +63,15 @@ let limit = 500
 async function fetchItems() {
     const query = `
  query {
+    me {
+        name
+        id
+    }
     boards(ids:["${boardId}"]) {
+    owners {
+      id
+      name
+    }
     columns{
       id
       title
@@ -104,7 +112,10 @@ async function fetchItems() {
     allData = response.data
     itemCount = allData.boards[0].items_count
     cursor = allData.boards[0].items_page.cursor
-
+    owner = allData.boards[0].owners
+    user = allData.me
+    console.log('owner=', owner)
+    console.log('user=', user)
     // createCheckbox()
 
     return response.data.boards[0].items_page.items;
@@ -153,7 +164,8 @@ async function getNextItem() {
         limit += 500
     } else {
         first = false
-        changeValue()
+        checkUpdate()
+        // changeValue()
         // createImage()
     }
 }
@@ -166,7 +178,8 @@ async function filterItems() {
         limit += 500
     } else {
         first = false
-        changeValue()
+        checkUpdate()
+        // changeValue()
         // createImage()
     }
 
@@ -174,6 +187,76 @@ async function filterItems() {
     // 過濾項目
 
 }
+
+
+
+
+let columnId = ''
+let itemId = ''
+
+function checkUpdate() {
+
+    // let columnId = ''; // 要更新的 column ID
+    const tmp = allData.boards[0].columns
+    for (let j = 0; j < tmp.length; j++) {
+        if (tmp[j].title == "Status") {
+            columnId = tmp[j].id
+            break
+        }
+    }
+
+    console.log('columnId=', columnId)
+    let status = ''
+    let columnValue
+    for (let k = 0; k < itemList.length; k++) {
+        if (itemList[k].name == "物料B") {
+            itemId = itemList[k].id
+            columnValue = itemList[k].column_values
+            console.log('columnValue000=', columnValue)
+            break
+        }
+
+    }
+    console.log('columnValue=', columnValue)
+    for (let i = 0; i < columnValue.length; i++) {
+        if (columnValue[i].id == columnId) {
+            status = columnValue[i].text
+            break
+        }
+    }
+
+    console.log('itemId=', itemId)
+    console.log('status=', status)
+    // const status = allData
+    let of = false
+    if (owner.length > 1) {
+        for (let m = 0; m < owner.length; m++) {
+            console.log('user[0].name=', user.name)
+            console.log('user[0].id=', user.id)
+            if (user.name == owner[m].name && user.id == owner[m].id) { of = true
+                break
+            }
+        }
+
+    } else {
+        if (user.name == owner[0].name && user.id == owner[0].id) { of = true
+        }
+    }
+
+    if ( of == true) {
+        if (status != "Done") {
+            
+            info.innerHTML = "未通過審核"
+        } else {
+            changeValue() 
+        }
+    } else {
+        info.innerHTML = "無權限"
+    }
+
+
+}
+
 
 let allCheckbox = []
 
@@ -431,7 +514,8 @@ monday.listen("itemIds", (res) => {
     filterID = res.data
     console.log('first==', first)
     if (first == false) {
-        changeValue()
+        checkUpdate()
+        // changeValue()
         // createImage()
     }
     console.log("newFilterId=", filterID)
@@ -739,6 +823,72 @@ let chValue = ""
 // console.log('changeValue=',changeValue)
 
 function changeValue() {
+    //https://eip.coolermaster.com/easyflow/A3RollBackHandler.ashx?MondayId=XXX
+    const apiUrl = 'https://eip.coolermaster.com/easyflow/A3RollBackHandler.ashx?MondayId=' + boardId;
+    console.log('url=', apiUrl)
+
+    // 使用fetch发起GET请求
+
+    fetch(apiUrl)
+        .then(response => {
+            // 检查响应是否成功
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return response.json(); // 解析JSON格式的响应体
+        })
+        .then(data => {
+            console.log("reset_data", data); // 打印获取到的数据
+            const success = data.Success
+            const processStatus = data.ProcessStatus
+            if (success == true) {
+                if (processStatus == "Success") {
+                    var query = `
+                                mutation {
+                                change_simple_column_value (
+                                board_id: ${boardId}, 
+                                item_id: ${itemId}, 
+                                column_id: "${columnId}", 
+                                value: "${chValue}"
+                                ) {
+                                id
+                                }
+                            }`;
+
+
+                    fetch("https://api.monday.com/v2", {
+                            method: 'post',
+                            headers: {
+                                'Content-Type': 'application/json',
+                                'Authorization': apiKey
+                            },
+                            body: JSON.stringify({
+                                'query': query
+                            })
+                        })
+                        .then(res => res.json())
+                        .then(res => {
+                            console.log(JSON.stringify(res, null, 2))
+                            info.innerHTML = "通過審核"
+                        });
+                }else{
+                    info.innerHTML = "尚未通過"
+                }
+            }else{
+                info.innerHTML = "連線錯誤"
+            }
+
+        })
+        .catch(error => {
+            console.log('There has been a problem with your fetch operation:', error);
+        });
+
+
+
+
+
+
+    // //////////////////////////////////////
     let  columnId = ''; // 要更新的 column ID
     const tmp = allData.boards[0].columns
     for(let j=0;j<tmp.length;j++){
@@ -757,19 +907,7 @@ function changeValue() {
     }
 
     console.log('itemId=',itemId)
-    // const value = '5'; // 新的 column values
-
-    // for (let i = 0; i < filterID.length; i++) {
-        // let n = i % 3
-        // if(n == 0){
-        //     chValue = "Done"
-        // }
-        // if(n == 1){
-        //     chValue = "Working on it"
-        // }
-        // if(n==2){
-        //     chValue = ""
-        // }
+    
         var query = `
         mutation {
             change_simple_column_value (
@@ -781,22 +919,7 @@ function changeValue() {
             id
             }
         }`;
-        // let query2 = `
- // query {
- //    next_items_page (limit: 500, cursor: "${cursor}") {
- //    cursor
- //    items {
- //      id
- //      name
- //      column_values{
- //            id
- //            text
- //            value
- //          }
- //      }
- //    }   
- //  }
- // `;
+       
 
         fetch("https://api.monday.com/v2", {
                 method: 'post',
@@ -810,39 +933,7 @@ function changeValue() {
             })
             .then(res => res.json())
             .then(res => console.log(JSON.stringify(res, null, 2)));
-    // }
-
-    //     const query = `
-    // ${filterID.map(id => `
-    //   changeItem_${id}: change_column_value(board_id: ${boardId}, item_id: ${id}, column_id: "${columnId}", value: "${newValue}") {
-    //     id
-    //     name
-    //   }
-    // `).join('\n')}
-    // `;
-
-    //     // 發送 POST 請求到 monday.com API
-    //     fetch(url, {
-    //             method: 'POST',
-    //             headers: {
-    //                 'Content-Type': 'application/json',
-    //                 'Authorization': apiKey
-    //             },
-    //             body: JSON.stringify({
-    //                 query: query
-    //             })
-    //         })
-    //         .then(response => response.json())
-    //         .then(data => {
-    //             if (Object.values(data).every(result => result && result.changeItem)) {
-    //                 console.log('Multiple column values changed successfully:', Object.values(data));
-    //             } else {
-    //                 console.error('Failed to change multiple column values:', data.errors);
-    //             }
-    //         })
-    //         .catch(error => {
-    //             console.error('Error fetching data:', error);
-    //         });
+    
 
 }
 
