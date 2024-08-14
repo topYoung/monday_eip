@@ -633,7 +633,7 @@ function changeValue() {
                     info.innerHTML = "查無A3重置項目"
                 } else {
 
-                    let status = ''
+                    let status = null
                     let columnValue = []
                     for (let k = 0; k < itemList.length; k++) {
                         if (itemList[k].name == rowName) {
@@ -655,7 +655,7 @@ function changeValue() {
 
                     console.log('itemId=', itemId)
                     console.log('status=', status)
-                    if (status != "") {
+                    if (status != null) {
                         if (processStatus == "Success") {
                             var query = `
                                 mutation {
