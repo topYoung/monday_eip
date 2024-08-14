@@ -155,7 +155,8 @@ function checkUpdate() {
             // info.innerHTML = "重置成功"
         // }
     } else {
-        info.innerHTML = "無權限"
+        info.innerHTML = "該項目無權限執行，請與執案PJM聯繫"
+        info.style.fontSize = "20px"
     }
 
 
@@ -629,7 +630,7 @@ function changeValue() {
 
                 console.log('columnId=', columnId)
                 if (columnId == "") {
-                    info.innerHTML = "查無重置項目"
+                    info.innerHTML = "查無A3重置項目"
                 } else {
 
                     let status = ''
@@ -682,13 +683,14 @@ function changeValue() {
                                 .then(res => res.json())
                                 .then(res => {
                                     console.log(JSON.stringify(res, null, 2))
-                                    info.innerHTML = "重置成功"
+                                    info.innerHTML = "此案A3已重置成功，請重新至EIP執行A3簽核流程"
+                                    info.style.fontSize = "18px"
                                 });
                         } else {尚
-                            info.innerHTML = "尚未重置"
+                            info.innerHTML = "此案A3尚未重置"
                         }
                     } else {
-                        info.innerHTML = "無須重置"
+                        info.innerHTML = "此案A3尚未通過審核，無須重置"
                     }
                 }
             } else {
