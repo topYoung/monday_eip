@@ -654,7 +654,7 @@ function changeValue() {
 
                     console.log('itemId=', itemId)
                     console.log('status=', status)
-                    if (status != "Done") {
+                    if (status != "") {
                         if (signStatus == "Success") {
                             var query = `
                                 mutation {
