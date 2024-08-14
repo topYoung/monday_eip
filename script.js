@@ -617,8 +617,8 @@ function changeValue() {
                 colName = data.ColName
                 console.log('rowName=', rowName)
                 console.log('colName=', colName)
-                rowName = '物料B'
-                colName = 'Status'
+                // rowName = '物料B'
+                // colName = 'Status'
                 const tmp = allData.boards[0].columns
                 for (let j = 0; j < tmp.length; j++) {
                     if (tmp[j].title == colName) {
