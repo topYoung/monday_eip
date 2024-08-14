@@ -126,41 +126,11 @@ async function fetchItems() {
 
 let columnId = ''
 let itemId = ''
-
+let rowName = ""
+let colName = ""
 function checkUpdate() {
 
-    // let columnId = ''; // 要更新的 column ID
-    const tmp = allData.boards[0].columns
-    for (let j = 0; j < tmp.length; j++) {
-        if (tmp[j].title == "Status") {
-            columnId = tmp[j].id
-            break
-        }
-    }
-
-    console.log('columnId=', columnId)
-    let status = ''
-    let columnValue
-    for (let k = 0; k < itemList.length; k++) {
-        if (itemList[k].name == "物料B") {
-            itemId = itemList[k].id
-            columnValue = itemList[k].column_values
-            console.log('columnValue000=', columnValue)
-            break
-        }
-
-    }
-    console.log('columnValue=', columnValue)
-    for (let i = 0; i < columnValue.length; i++) {
-        if (columnValue[i].id == columnId) {
-            status = columnValue[i].text
-            break
-        }
-    }
-
-    console.log('itemId=', itemId)
-    console.log('status=', status)
-    // const status = allData
+    
     let of = false
     if (owner.length > 1) {
         for (let m = 0; m < owner.length; m++) {
@@ -178,12 +148,12 @@ function checkUpdate() {
 
     console.log('of==',of)
     if ( of == true) {
-        if (status != "Done") {
-            info.innerHTML = "無須重置"
-        } else {
+        // if (status != "Done") {
+        //     info.innerHTML = "無須重置"
+        // } else {
             changeValue()
             // info.innerHTML = "重置成功"
-        }
+        // }
     } else {
         info.innerHTML = "無權限"
     }
@@ -634,17 +604,59 @@ function changeValue() {
         .then(response => {
             // 检查响应是否成功
             if (!response.ok) {
-                throw new Error('Network response was not ok');
+                throw new Error(`Network response was not ok: ${response.status} ${response.statusText}`);
             }
             return response.json(); // 解析JSON格式的响应体
         })
         .then(data => {
             console.log("update_data", data); // 打印获取到的数据
             const success = data.Success
-            const processStatus = data.ProcessStatus
+            const signStatus = data.SignStatus
             if (success == true) {
-                if (processStatus == "Success") {
-                    var query = `
+                rowName = data.RowName
+                colName = data.ColName
+                console.log('rowName=', rowName)
+                console.log('colName=', colName)
+                rowName = '物料B'
+                colName = 'Status'
+                const tmp = allData.boards[0].columns
+                for (let j = 0; j < tmp.length; j++) {
+                    if (tmp[j].title == colName) {
+                        columnId = tmp[j].id
+                        break
+                    }
+                }
+
+                console.log('columnId=', columnId)
+                if (columnId == "") {
+                    info.innerHTML = "查無重置項目"
+                } else {
+
+                    let status = ''
+                    let columnValue = []
+                    for (let k = 0; k < itemList.length; k++) {
+                        if (itemList[k].name == rowName) {
+                            itemId = itemList[k].id
+                            columnValue = itemList[k].column_values
+                            console.log('columnValue000=', columnValue)
+                            break
+                        }
+
+                    }
+                    console.log('columnValue=', columnValue)
+
+                    for (let i = 0; i < columnValue.length; i++) {
+                        if (columnValue[i].id == columnId) {
+                            status = columnValue[i].text
+                            break
+                        }
+                    }
+
+                    console.log('itemId=', itemId)
+                    console.log('status=', status)
+                    if (status != "Done") {
+                        if (signStatus == "Success") {
+                            var query = `
                                 mutation {
                                 change_simple_column_value (
                                 board_id: ${boardId}, 
@@ -657,32 +669,41 @@ function changeValue() {
                             }`;
 
 
-                    fetch("https://api.monday.com/v2", {
-                            method: 'post',
-                            headers: {
-                                'Content-Type': 'application/json',
-                                'Authorization': apiKey
-                            },
-                            body: JSON.stringify({
-                                'query': query
-                            })
-                        })
-                        .then(res => res.json())
-                        .then(res => {
-                            console.log(JSON.stringify(res, null, 2))
-                            info.innerHTML = "重置成功"
-                        });
-                }else{
-                    info.innerHTML = "尚未重置"
+                            fetch("https://api.monday.com/v2", {
+                                    method: 'post',
+                                    headers: {
+                                        'Content-Type': 'application/json',
+                                        'Authorization': apiKey
+                                    },
+                                    body: JSON.stringify({
+                                        'query': query
+                                    })
+                                })
+                                .then(res => res.json())
+                                .then(res => {
+                                    console.log(JSON.stringify(res, null, 2))
+                                    info.innerHTML = "重置成功"
+                                });
+                        } else {
+                            info.innerHTML = "尚未重置"
+                        }
+                    } else {
+                        info.innerHTML = "無須重置"
+                    }
                 }
-            }else{
+            } else {
                 info.innerHTML = "連線錯誤"
             }
 
         })
         .catch(error => {
-            console.log('There has been a problem with your fetch operation:', error);
+            if (error instanceof SyntaxError) {
+                console.error('There has been a problem parsing JSON:', error);
+            } else {
+                console.error('There has been a problem with your fetch operation:', error.message);
+            }
         });
+
 
 
 
