@@ -691,6 +691,7 @@ function changeValue() {
                         }
                     } else {
                         info.innerHTML = "此案A3尚未通過審核，無須重置"
+                        info.style.fontSize = "20px"
                     }
                 }
             } else {
