@@ -611,7 +611,7 @@ function changeValue() {
         .then(data => {
             console.log("update_data", data); // 打印获取到的数据
             const success = data.Success
-            const signStatus = data.SignStatus
+            const processStatus = data.ProcessStatus
             if (success == true) {
                 rowName = data.RowName
                 colName = data.ColName
@@ -655,7 +655,7 @@ function changeValue() {
                     console.log('itemId=', itemId)
                     console.log('status=', status)
                     if (status != "") {
-                        if (signStatus == "Success") {
+                        if (processStatus == "Success") {
                             var query = `
                                 mutation {
                                 change_simple_column_value (
@@ -684,7 +684,7 @@ function changeValue() {
                                     console.log(JSON.stringify(res, null, 2))
                                     info.innerHTML = "重置成功"
                                 });
-                        } else {
+                        } else {尚
                             info.innerHTML = "尚未重置"
                         }
                     } else {
