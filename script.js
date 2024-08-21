@@ -682,8 +682,9 @@ function changeValue() {
                                 })
                                 .then(res => res.json())
                                 .then(res => {
-                                    console.log(JSON.stringify(res, null, 2))
+                                    
                                     let json = JSON.stringify(res, null, 2)
+                                    console.log("json=",json)
                                     let error_message = json['error_message']
                                     console.log('error_message = ',error_message)
                                     if(error_message){
