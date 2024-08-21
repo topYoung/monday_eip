@@ -683,9 +683,9 @@ function changeValue() {
                                 .then(res => res.json())
                                 .then(res => {
                                     
-                                    let json = JSON.stringify(res, null, 2)
-                                    console.log("json=",json)
-                                    let error_message = json[0]['error_message']
+                                    let myJson = JSON.stringify(res, null, 2)
+                                    console.log("myJson=",myJson)
+                                    let error_message = myJson.error_message
                                     console.log('error_message = ',error_message)
                                     if(error_message){
                                         info.innerHTML = error_message
