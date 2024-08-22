@@ -35,8 +35,8 @@ const monday = window.mondaySdk();
 // let userId = '';
 
 // 你的API Key
-// const apiKey = 'eyJhbGciOiJIUzI1NiJ9.eyJ0aWQiOjMzNTg4OTE2MCwiYWFpIjoxMSwidWlkIjo1NzQ0NDIwOSwiaWFkIjoiMjAyNC0wMy0yMVQwMjo0MDoyNS4wMDBaIiwicGVyIjoibWU6d3JpdGUiLCJhY3RpZCI6MTIyNjMxODUsInJnbiI6InVzZTEifQ.TWvpOEhzwOTH5TeoaFeIbkUJAMSIWBytryEIH4cUrEw';
-const apiKey = 'eyJhbGciOiJIUzI1NiJ9.eyJ0aWQiOjM5OTg5ODM3MywiYWFpIjoxMSwidWlkIjo2NTA0ODc2MSwiaWFkIjoiMjAyNC0wOC0yMVQwNzo0NzoxOS4zNjJaIiwicGVyIjoibWU6d3JpdGUiLCJhY3RpZCI6MTIyNjMxODUsInJnbiI6InVzZTEifQ.JEGiTI8l1Mg9xUd_aCeExdgQf23I7PAfF-2d1l7ic8Y'
+const apiKey = 'eyJhbGciOiJIUzI1NiJ9.eyJ0aWQiOjMzNTg4OTE2MCwiYWFpIjoxMSwidWlkIjo1NzQ0NDIwOSwiaWFkIjoiMjAyNC0wMy0yMVQwMjo0MDoyNS4wMDBaIiwicGVyIjoibWU6d3JpdGUiLCJhY3RpZCI6MTIyNjMxODUsInJnbiI6InVzZTEifQ.TWvpOEhzwOTH5TeoaFeIbkUJAMSIWBytryEIH4cUrEw';
+// const apiKey = 'eyJhbGciOiJIUzI1NiJ9.eyJ0aWQiOjM5OTg5ODM3MywiYWFpIjoxMSwidWlkIjo2NTA0ODc2MSwiaWFkIjoiMjAyNC0wOC0yMVQwNzo0NzoxOS4zNjJaIiwicGVyIjoibWU6d3JpdGUiLCJhY3RpZCI6MTIyNjMxODUsInJnbiI6InVzZTEifQ.JEGiTI8l1Mg9xUd_aCeExdgQf23I7PAfF-2d1l7ic8Y'
 // 你想要抓取的board ID
 let boardId
 let first = true
@@ -684,12 +684,14 @@ function changeValue() {
                                 .then(res => {
                                     
                                     let myJson = JSON.stringify(res, null, 2)
-                                    console.log("myJson=",myJson)
+                                    // console.log("myJson=",myJson)
                                     let error_message = res.error_message; // 直接从响应对象中提取error_message
     
                                     console.log('error_message = ',error_message)
                                     if(error_message){
-                                        info.innerHTML = error_message
+                                        // info.innerHTML = error_message
+                                        // info.style.fontSize = "20px"
+                                        info.innerHTML = "該項目無權限執行，請與執案PJM聯繫"
                                         info.style.fontSize = "20px"
                                     }else{
                                     info.innerHTML = "此案A3已重置成功，請重新至EIP執行A3簽核流程"
