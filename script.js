@@ -589,7 +589,7 @@ let oldNum = 2
 //     clearTimeout(myTimeout);
 // }
 
-let chValue = ""
+let chValue = "未開始"
 // console.log('changeValue=',changeValue)
 
 function changeValue() {
@@ -618,6 +618,7 @@ function changeValue() {
                 colName = data.ColName
                 console.log('rowName=', rowName)
                 console.log('colName=', colName)
+                chValue = data.NewValue
                 // rowName = '物料B'
                 // colName = 'Status'
                 const tmp = allData.boards[0].columns
@@ -655,7 +656,7 @@ function changeValue() {
 
                     console.log('itemId=', itemId)
                     console.log('status=', status)
-                    if (status != null) {
+                    if (status != chValue) {
                         if (processStatus == "Success") {
                             var query = `
                                 mutation {
